@@ -1,0 +1,103 @@
+-SQl Instalation
+ downloaded the sql server and ssms
+
+-DBMS-Data base Management System
+  it is a software used to manage the database.
+  it basically serves as an interface between the database and its end users.used to retrieve,update and manage the data.
+
+-There are 4 types of dbms
+ 1.Hierarchial
+ 2.Network
+ 3.Relational
+ 4.Object oriented
+
+1.Heirarchial : 
+  It showcase the predices and successor type of relationship.
+  Its like a tree in which nodes represents records and branches represents field.
+
+2.Relational-data :
+  It is stored in the form of tables.
+
+3.object oriented :
+  this everything is represent in a object it contains data and instructions to be done with the data.
+4.Network: .
+   multiple users data can be link.
+
+Queries:
+
+Create database Employee;
+use Employee;
+create table EmployeeInfo
+(
+employeeId int,
+employeeName varchar(50),
+employeeAddress varchar(50),
+PhoneNumber bigint,
+City varchar(50),
+Country varchar(50)
+);
+
+  -alter table employeeinfo add BloodGroup varchar(50)
+  -alter table employeeinfo add DOB date;
+  -alter table employeeinfo alter column DOB datetime;
+  -constraint UC_employeeinfo unique(employeeId,PhoneNumber);
+
+create table EmployeeInfo1
+(
+employeeId int,
+employeeName varchar(50),
+employeeAddress varchar(50),
+PhoneNumber bigint,
+City varchar(50),
+Country varchar(50)
+constraint UC_employeeinfo unique(employeeId,PhoneNumber)   //using unique constrint for two data fields.
+);
+
+Drop table employeeinfo1;  //drop the table
+
+create table Employeeinfo2
+(
+employeeId int,
+employeeName varchar(50),
+employeeAddress varchar(50),
+PhoneNumber bigint,
+City varchar(50),
+Country varchar(50)
+);
+
+-Insert into employeeinfo2 Values('12','john','niceroad','9380','Bangalore','india');
+-Insert into employeeinfo2 Values('13','jala','mgroad','2387','Bagevadi','japan');
+-Insert into employeeinfo2 Values('14','jala','hsr','1123','Belagum','jermany');
+
+-select * from Employeeinfo2;
+-update employeeinfo2 set employeeName='Pavan',City='Bhimavaram'
+ where employeeId=12;
+-delete from employeeinfo2 where employeeId='12';
+
+
+Create table samplesource(employeeId int,employeeName varchar(50),employeeScore int)
+Create table sampleTarget(employeeId int,employeeName varchar(50),employeeScore int)
+
+insert into samplesource values('34','vihan','35');
+insert into samplesource values('35','viru','60');
+insert into samplesource values('36','vishu','70');
+
+insert into sampleTarget values('34','vishal','40');
+insert into sampleTarget values('35','vinny','60');
+insert into sampleTarget values('36','vishu','70');
+
+select * from samplesource ;
+select * from sampleTarget;
+
+select employeeId,employeeName from samplesource;
+
+select top 2 * from sampleTarget;
+
+select * from samplesource order by employeeScore desc
+
+select COUNT(employeeId),employeeScore from samplesource group by employeeScore;
+
+select employeeId,employeeName,count(employeeScore) from sampleTarget group by grouping sets((employeeId,employeeName,employeeScore),(employeeId),(employeeName),(employeeScore));
+
+select employeeID,count(employeeScore) from samplesource group by cube(employeeId) order by(employeeId)
+
