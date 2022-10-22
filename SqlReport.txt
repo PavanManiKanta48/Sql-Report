@@ -101,3 +101,132 @@ select employeeId,employeeName,count(employeeScore) from sampleTarget group by g
 
 select employeeID,count(employeeScore) from samplesource group by cube(employeeId) order by(employeeId)
 
+19-10-2022
+->Constraints:- The rule given  for the column for validation
+*)Unique :-It is used to avoid the duplicate values into the coloum
+->CREATE TABLE Persons (
+    ID int NOT NULL,
+    LastName varchar(25) NOT NULL,
+    FirstName varchar(25),
+    Age int,
+    CONSTRAINT UC_Person UNIQUE (ID,LastName)
+);
+*)Not null:-It is used to avoid null values
+->ALTER TABLE Persons
+ALTER COLUMN Age int NOT NULL;
+*)check :-It is a extra validation with a condition
+->CREATE TABLE Persons (
+    ID int NOT NULL,
+    LastName varchar(20) NOT NULL,
+    FirstName varchar(250),
+    Age int,
+    City varchar(10),
+    CONSTRAINT CHK_Person CHECK (Age>=18 AND City='')
+);
+if the condtion  is satisfied the value is accepted else  it will be rejected
+*)Primary key:-It is a constraints  which is used to identyfy  a records uniquely from the table
+->CREATE TABLE Persons (
+    ID int NOT NULL PRIMARY KEY,
+    LastName varchar(20) NOT NULL,
+    FirstName varchar(20),
+    Age int
+);
+->forenkey:-
+*) FOREIGN KEY is a field in one table that refers to the PRIMARY KEY in another table.
+->The table with the foreign key is called the child table and the table with the primary key is called the referenced or parent table.
+
+20-10-2022
+select*from DimEmployee
+select*from DimProduct
+ 
+ select DimEmployee.EmployeeKey,DimEmployee.EmployeeNationalIDAlternateKey,DimProduct.ProductKey,DimProduct.ProductAlternateKey
+ from DimEmployee
+ join DimProduct
+ on DimEmployee.EmployeeKey=DimProduct.ProductKey;
+
+ --create New Tables for joining --
+
+ create database JoinsDatabase
+ use JoinsDatabase
+
+ --Table creations---
+ create table Employee
+ (
+ Eid int primary key,
+ Ename varchar(20) not null,
+ Esal  money not null,
+ Deptid int unique,
+ Salid int unique
+ )
+
+ create table Department
+ (
+ Did int primary key,
+ Dname varchar(20) not null, 
+ )
+ 
+
+ create table Salary
+ (
+ [Sid] int primary key,
+ Sal money not null, 
+ )
+ select * from Employee
+ select * from Department
+ select * from Salary
+
+
+ insert into employee values(101,'Pavan',15000,105,108)
+ insert into employee values(102,'Ram',16000,103,103)
+ insert into employee values(103,'Rajiv',14000,104,105)
+ insert into employee values(104,'Tarun',17000,102,109)
+ insert into employee values(105,'Ramu',13000,120,101)
+
+
+  insert into Department values(102,'praveen')
+  insert into Department values(101,'ramesh')
+  insert into Department values(105,'manikanta')
+  insert into Department values(108,'teja')
+
+  insert into Salary values(102,'18000')
+  insert into Salary values(105,'12000')
+  insert into Salary values(103,'16000')
+  insert into Salary values(110,'20000')
+
+   
+ select * from Employee
+ select * from Department
+ select * from Salary
+
+ --Join 2 tables
+ select Employee.Ename,Department.Dname
+  from Employee
+  join Department
+  on Employee.Deptid=Department.Did  
+  
+  --left join 3 tables
+  select Employee.Ename,Department.Dname,Salary.sal
+  from Employee
+   left join Department    
+  on Employee.Deptid=Department.Did 
+  left join Salary
+  on Employee.Salid=Salary.[Sid]  
+  where Salary.Sal>10000
+  
+  --right join 2 tables
+  select Employee.Ename,Department.Dname
+  from Employee
+  right join Department
+  on Employee.Deptid=Department.Did 
+  
+  --inner join 2 tables
+  select Employee.Ename,Department.Dname
+  from Employee
+  inner join Department
+  on Employee.Deptid=Department.Did  
+
+  --full join 2 tables
+  select Employee.Ename,Department.Dname
+  from Employee
+  full join Department
+  on Employee.Deptid=Department.Did   
