@@ -230,3 +230,162 @@ select*from DimProduct
   from Employee
   full join Department
   on Employee.Deptid=Department.Did   
+
+21-10-2022
+
+Gone through basics of stored procedures.
+Stored Procedure in SQL: Benefits And How to Create It
+By Ravikiran A S
+Last updated on Oct 21, 202261997
+Everything That You Need to Know About Stored Procedure in SQL
+Table of Contents
+What are the Benefits of using a Stored Procedure in SQL?How to Create a Simple Stored Procedure in SQL?Why Do You Use SET NOCOUNT ON?How to Create a Stored Procedure with Parameters?How to Create a Stored Procedure in SQL with Default Parameters?View More
+A stored procedure in SQL is a group of SQL statements that are stored together in a database. Based on the statements in the procedure and the parameters you pass, it can perform one or multiple DML operations on the database, and return value, if any. Thus, it allows you to pass the same statements multiple times, thereby, enabling reusability.
+
+Data Analyst Master's Program
+In Collaboration With IBMEXPLORE COURSEData Analyst Master's Program
+What are the Benefits of using a Stored Procedure in SQL?
+Stored procedures provide some crucial benefits, which are:
+
+Reusable: As mentioned, multiple users and applications can easily use and reuse stored procedures by merely calling it.
+Easy to modify: You can quickly change the statements in a stored procedure as and when you want to, with the help of the ALTER TABLE command.
+Security: Stored procedures allow you to enhance the security of an application or a database by restricting the users from direct access to the table.
+Low network traffic: The server only passes the procedure name instead of the whole query, reducing network traffic.
+Increases performance: Upon the first use, a plan for the stored procedure is created and stored in the buffer pool for quick execution for the next time.
+How to Create a Simple Stored Procedure in SQL?
+Creating a stored procedure in SQL is as easy as it can get. The syntax of SQL stored procedure is:
+
+CREATE or REPLACE PROCEDURE name(parameters)
+
+AS
+
+variables;
+
+BEGIN;
+
+//statements;
+
+END;
+
+In the syntax mentioned above, the only thing to note here are the parameters, which can be the following three types:
+
+IN: It is the default parameter that will receive input value from the program
+OUT: It will send output value to the program
+IN OUT: It is the combination of both IN and OUT. Thus, it receives from, as well as sends a value to the program
+Note: You will work with and look at examples for different parameters in this article.
+
+You will use the syntax to create a simple stored procedure in SQL. But before that, create two tables using the CREATE TABLE command that you will use throughout the article. You will also insert some values in them using the INSERT INTO command.
+
+CREATE TABLE Car(
+
+CarID INT,
+
+CarName VARCHAR(100)
+
+);
+
+INSERT INTO Car VALUES (101,'Mercedes-Benz');
+
+INSERT INTO Car VALUES (201,'BMW');
+
+INSERT INTO Car VALUES (301,'Ferrari');
+
+INSERT INTO Car VALUES (401,'Lamborghini');
+
+INSERT INTO Car VALUES (501,'Porsche');
+
+SELECT * FROM Car;
+
+Output:
+StoredProcedureInSQL_1
+
+Now create the second table named CarDescription.
+
+CREATE TABLE CarDescription(
+
+CarID INT,
+
+CarDescription VARCHAR(800)
+
+);
+
+INSERT INTO CarDescription VALUES (101,'Luxury vehicle from the German automotive');
+
+INSERT INTO CarDescription VALUES (201,'Luxury motorcycle from the German automotive');
+
+INSERT INTO CarDescription VALUES (301,'Luxury sports car from the Italian manufacturer');
+
+INSERT INTO CarDescription VALUES (401,'Luxury SUV from the Italian automotive');
+
+INSERT INTO CarDescription VALUES (501,'High-performance sports car from the German manufacturer');
+
+SELECT * FROM CarDescription;
+
+Output:
+StoredProcedureInSQL_2
+
+Now that you have created both the tables, start creating the stored procedure in SQL with the syntax mentioned earlier. For the simple procedure, you will have to use the JOIN keyword to join both the tables, and output a new one with CarID, CarName, and CarDescription.
+
+CREATE PROCEDURE GetCarDesc
+
+AS
+
+BEGIN
+
+SET NOCOUNT ON
+
+SELECT C.CarID,C.CarName,CD.CarDescription  FROM 
+
+Car C
+
+INNER JOIN CarDescription CD ON C.CarID=CD.CarID
+
+END
+
+This will create the stored procedure, and you will see the “command(s) executed successfully” message in Microsoft SQL Server Management Studio. Now, since you have created the procedure, it's time to execute it. The syntax to execute the procedure is:
+
+EXEC procedure_name
+
+Let’s execute the procedure we have created.
+
+EXEC GetCarDesc;
+
+Output:
+StoredProcedureInSQL_3
+
+As you can see in the output, the stored procedure executed the Join statement and gave the desired result.
+
+FREE Course: Introduction to Data Analytics
+Mastery to Data Analytics Basics is a Click Away!START LEARNINGFREE Course: Introduction to Data Analytics
+Why Do You Use SET NOCOUNT ON?
+If you have noticed, this example used SET NOCOUNT ON while creating the stored procedure. But why? NOCOUNT tells the server not to count the number of affected rows. Thus, setting NOCOUNT to ON will prevent displaying the messages of the number of rows affected. You can also set it to OFF, to see the number of rows affected.
+
+How to Create a Stored Procedure with Parameters?
+In this example, you will have to create a new stored procedure in SQL with parameters.
+
+CREATE PROCEDURE GetCarDesc_Para
+
+(@CID INT)
+
+AS
+
+BEGIN
+
+SET NOCOUNT ON
+
+SELECT C.CarID,C.CarName,CD.CarDescription  FROM 
+
+Car C
+
+INNER JOIN CarDescription CD ON C.CarID=CD.CarID
+
+WHERE C.CarID=@CID
+
+END
+
+Practice on Operators  like:
+Arithmetic Operators
+Bitwise Operators
+Comparison Operators
+Compound Operators
+Logical Operators
