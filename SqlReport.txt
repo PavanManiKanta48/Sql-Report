@@ -389,3 +389,32 @@ Bitwise Operators
 Comparison Operators
 Compound Operators
 Logical Operators
+
+26-10-2022
+Self joins:
+-select a.ename as employee,b.ename as manager
+  from Employee a,Employee b
+  where a.Eid=b.Deptid
+
+Inner join:
+ -select * from Employee
+  select a.ename as EmployeeName,b.ename as DepartmentName 
+  from Employee a
+  join employee b on a.eid=b.deptid
+Left Join
+ - select a.ename as Employee,b.ename as manager 
+ from Employee a
+ left join employee b on b.deptid=a.eid
+Cross Join:
+ -  select a.ename as Employee,b.ename as manager 
+ from Employee a
+ cross join employee b 
+Except Operator:
+ -EXCEPT returns only rows, which are not available in the second SELECT statement.
+ -select * from Books2
+ except
+ select * from Books1
+EXCEPT vs NOT NULL:
+-select * from books1
+ where id not in (select id from Books2)
+-gone Clauses and Select Commands.
