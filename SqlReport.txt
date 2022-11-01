@@ -1,3 +1,4 @@
+18-10-2022
 -SQl Instalation
  downloaded the sql server and ssms
 
@@ -418,3 +419,215 @@ EXCEPT vs NOT NULL:
 -select * from books1
  where id not in (select id from Books2)
 -gone Clauses and Select Commands.
+-Session Taken By Bhushan Chandrashekhar Kolapkar on 1.00pm
+
+27-10-2022
+What is a GUID :
+-GUID is a 16 byte binary SQL Server data type that is globally unique across tables, databases, and servers. The term GUID stands for Globally Unique Identifier and it is used interchangeably with UNIQUEIDENTIFIER.
+
+-To create a GUID in SQL Server, the NEWID() function is used
+
+-create table Employee
+  ( 
+  EmpId uniqueidentifier primary key default NewId(),
+  EName varchar(50),
+  Esal money,
+  [Address] varchar(50)
+  )
+
+  insert into Employee(EName,Esal,[Address])
+  values
+  ('pavan',15000,'bhimavaram'),
+  ('ram',15000,'palakollu'),
+  ('bheem',15000,'visakhapatnam'),
+  ('tarun',15000,'machilipatnam')
+
+Stored procedures
+-A stored procedure is a prepared SQL code that you can save, so the code can be reused over and over again.
+-So if you have an SQL query that you write over and over again, save it as a stored procedure, and then just call it to execute it.
+------insert ------
+ CREATE PROCEDURE Sp_Insert
+ ( 
+ @U_NAME VARCHAR(20),
+ @U_AGE INT
+ )
+ AS
+   BEGIN
+   SET NOCOUNT ON;
+     INSERT INTO UserDetails(User_Name,User_age) VALUES(@U_NAME,@U_AGE);
+   END
+ -----------update----------
+   create Procedure sp_Update(
+   @U_Id int,
+   @U_Name varchar(20),
+   @U_Age int)
+   as 
+   begin
+   SET NOCOUNT ON;
+   update UserDetails 
+   set User_Name=@U_Name,
+       User_age=@U_Age
+	   where User_Id=@U_Id
+   end
+---------delete-----------
+   Create proc Sp_Delete(@id int )
+   as
+   begin
+    delete from UserDetails
+	where User_Id=@id
+	end
+
+28-10-2022
+-------------indexers--------------------------
+Indexers:Indexes are used to retrieve data from the database more quickly than otherwise.
+SQL Server supports two types of indexes:
+1.Clustered Index  : Nonclustered indexes have a structure separate from the data rows.
+2.Non-Clusterd Index : Clustered indexes sort and store the data rows in the table or view based on their key values.
+   syntax :CREATE UNIQUE INDEX index_name
+           ON table_name (column1, column2, ...);
+DROP INDEX : DROP INDEX index_name ON table_name;
+
+---------------functions--------------------------
+-This reference contains string, numeric, date, conversion, and some advanced functions in SQL Server.
+- Functions foster code reusability. If you have to repeatedly write large SQL scripts to perform the 
+  same task, you can create a function that performs that task.
+
+syntax : CREATE FUNCTION getFormattedDate
+	 (
+	 @DateValue AS DATETIME
+	 )
+	RETURNS VARCHAR(MAX)
+	AS
+	BEGIN
+	RETURN
+	  DATENAME(DW, @DateValue)+ ', '+
+	  DATENAME(DAY, @DateValue)+ ' '+
+	  DATENAME(MONTH, @DateValue) +', '+
+	  DATENAME(YEAR, @DateValue)
+ 
+	END
+-------------------The SQL CASE Expression-------------
+-The CASE expression goes through conditions and returns a value when the first condition is met (like an if-then-else statement).
+  So, once a condition is true, it will stop reading and return the result. If no conditions are true, it returns the value in the ELSE clause.
+CASE Syntax :
+-CASE
+    WHEN condition1 THEN 'result1'
+    WHEN condition2 THEN result2
+    WHEN conditionN THEN resultN
+    ELSE result
+ END;
+Example:
+SELECT OrderID, Quantity,
+CASE
+    WHEN Quantity > 30 THEN 'The quantity is greater than 30'
+    WHEN Quantity = 30 THEN 'The quantity is 30'
+    ELSE 'The quantity is under 30'
+END AS QuantityText
+FROM OrderDetails;
+
+-----------Commit, Rollback and Savepoint SQL commands-----------
+COMMIT command :
+-COMMIT command is used to permanently save any transaction into the database.
+ROLLBACK command :
+-This command restores the database to last commited state. It is also used with SAVEPOINT
+  command to jump to a savepoint in an ongoing transaction.
+SAVEPOINT command :
+-SAVEPOINT command is used to temporarily save a transaction so that you can rollback to that point whenever required.
+
+31-10-2022
+
+--------------Collections------------------
+1.Generic 
+2.Non-generic
+
+-Arrays :type safe but fixed size.
+-Colections : auto-resizing but not type safe
+
+Dynamic array :
+int[] arr=new int[10]
+array.Resize()--> it will resize the array but destroy old values.
+
+Advantage:
+-Increase Size
+-Insert values into middle of collectons
+-Removing values from Collections
+
+--------------Generic Collections :
+-C# includes the following generic collection classes in the System.Collections.Generic namespace.
+-type safe and auto resizing.
+Generic Collections	Description
+-------------------     -----------
+List<T>			Generic List<T> contains elements of specified type. It grows automatically as you add elements in it.
+Dictionary<TKey,TValue>	Dictionary<TKey,TValue> contains key-value pairs.
+SortedList<TKey,TValue>	SortedList stores key and value pairs. It automatically adds the elements in ascending order of key by default.
+Queue<T>			Queue<T> stores the values in FIFO style (First In First Out). It keeps the order in which the values were added. It provides an Enqueue() method to add values and a Dequeue() method to retrieve values from the collection.
+Stack<T>			Stack<T> stores the values as LIFO (Last In First Out). It provides a Push() method to add a value and Pop() & Peek() methods to retrieve values.
+Hashset<T>			Hashset<T> contains non-duplicate elements. It eliminates duplicate elements.
+
+--------------Non-generic Collections
+Non-generic Collections 	Usage
+-----------------------       ------
+ArrayList				ArrayList stores objects of any type like an array. However, there is no need to specify the size of the ArrayList like with an array as it grows automatically.
+SortedList				SortedList stores key and value pairs. It automatically arranges elements in ascending order of key by default. C# includes both, generic and non-generic SortedList collection.
+Stack	Stack 			stores the values in LIFO style (Last In First Out). It provides a Push() method to add a value and Pop() & Peek() methods to retrieve values. C# includes both, generic and non-generic Stack.
+Queue	Queue 			stores the values in FIFO style (First In First Out). It keeps the order in which the values were added. It provides an Enqueue() method to add values and a Dequeue() method to retrieve values from the collection. C# includes generic and non-generic Queue.
+Hashtable				Hashtable stores key and value pairs. It retrieves the values by comparing the hash value of the keys.
+BitArray				BitArray manages a compact array of bit values, which are represented as Booleans, where true indicates that the bit is on (1) and false indicates the bit is off (0).
+
+--------Example Array list:
+  ArrayList a = new ArrayList(20);
+            a.Add(230);
+            Console.WriteLine(a);
+            a.Add("pavan");
+            Console.WriteLine(a.Capacity);
+            foreach(object obj in a)           
+            Console.WriteLine(obj+" ");
+            Console.WriteLine();
+            a.Insert(2, 109);
+            foreach (object obj in a)
+            Console.WriteLine(obj + " ");
+            Console.WriteLine();
+            a.Remove("pavan");
+
+---------Examples Of Hashtable
+Hashtable ht = new Hashtable();
+            ht.Add("pavan", "mk");
+            ht.Add("ram", 123);
+            ht.Add("tarunn", "mommu");
+            ht.Add(104, "mark");
+            ht.Add(345, "mohan");
+            ht.Add("A", 12);
+            //Console.WriteLine("ram".GetHashCode());
+            foreach(object keys in ht.Keys)
+               // Console.WriteLine(keys);
+            Console.WriteLine(keys +":"+ht[keys]);
+
+----------Generic collection
+List :
+- List<int> li = new List<int>();
+            li.Add(10);
+            li.Add(20);
+            li.Add(30);
+            foreach(int i in li)
+                Console.Write(i+" ");
+          li.Insert(li.Count-1, 50);
+            for(int i=0; i < li.Count; i++)
+            {
+                Console.Write(li[i]+" ");
+            }
+
+-  public void add<T>(T a,T b)
+        {
+            dynamic d1 = a;
+            dynamic d2 = b;
+            Console.WriteLine($"Add the values {d1}+ {d2} ={d1+d2}");
+        }
+
+     obj.add<int>(12, 23); 
+
+
+
+
+
+
+
